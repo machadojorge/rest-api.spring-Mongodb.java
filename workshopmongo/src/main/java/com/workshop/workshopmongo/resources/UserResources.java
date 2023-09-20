@@ -81,6 +81,29 @@ public class UserResources {
         return ResponseEntity.created(uri).build();
 	}
 
+    // Delete
+      @RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+    public ResponseEntity<Void> delete(@PathVariable String id) //this means that id come from the URL
+    {
+		service.delete(id);
+        // When do any operation that not return nothing, we return the code 204 (noContent)
+		return ResponseEntity.noContent().build();
+	}
+
+    //UPDATE
+     @RequestMapping(value="/{id}", method=RequestMethod.PUT)
+    public ResponseEntity<Void> update(@RequestBody UserDTO obj, @PathVariable String id) 
+    //This RequestBody inform that we receive in the body an object of type UserDTO
+    // and one ID for know what object makes changes
+        {
+		User usr = service.fromDTO(obj);
+       usr.setId(id);
+       usr = service.update(usr);
+       
+        return ResponseEntity.noContent().build();
+	}
+
+
 }
     
 

@@ -38,6 +38,31 @@ public class UserServices {
         return repo.insert(obj);
     }
 
+    // This method delete a record in the database
+    public void delete(String id)
+    {
+        findById(id); // we call this method for testing if the record exists
+        // if not exists, the method call the exception and do not make the delete
+        repo.deleteById(id);
+    }
+
+    // UPDATE
+    public User update(User obj)
+    {
+        // For update a record in the database, firt we need get the object from the database, 
+        // After that, we change this record with the new data
+        // for last save this changed object in the database
+
+        User newObj = findById(obj.getId());
+		updateData(newObj, obj);
+		return repo.save(newObj);
+    }
+
+    public void updateData(User newObj, User obj)
+    {
+        newObj.setName(obj.getName());
+        newObj.setEmail(obj.getEmail());
+    }
 
     // For this method we get a User from the DTO Object
     public User fromDTO(UserDTO obj)
