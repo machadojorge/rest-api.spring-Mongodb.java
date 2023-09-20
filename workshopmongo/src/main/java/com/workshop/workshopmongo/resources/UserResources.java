@@ -1,5 +1,6 @@
 package com.workshop.workshopmongo.resources;
 
+import java.net.URI;
 /// IMPORTANTE  ///
 //This class can be call the "Controller"
 import java.util.ArrayList;
@@ -10,9 +11,11 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.workshop.workshopmongo.domain.User;
 import com.workshop.workshopmongo.dto.UserDTO;
@@ -61,6 +64,21 @@ public class UserResources {
     {
 		User obj = service.findById(id);
 		return ResponseEntity.ok().body(new UserDTO(obj));
+	}
+
+    // this is a Post Method that insert a new user in the database
+    // Returns a RewsponseEntity<void>
+    @RequestMapping(method=RequestMethod.POST)
+    public ResponseEntity<Void> insert(@RequestBody UserDTO obj) //Thsi RequestBody inform that we receive in the body an object of type UserDTO
+        {
+		User usr = service.fromDTO(obj);
+        usr = service.insert(usr);
+
+        // PUt a header in the response
+        // gets the new address of inserted objected
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(usr.getId()).toUri();
+		// Return a response with headers and a body empty
+        return ResponseEntity.created(uri).build();
 	}
 
 }
