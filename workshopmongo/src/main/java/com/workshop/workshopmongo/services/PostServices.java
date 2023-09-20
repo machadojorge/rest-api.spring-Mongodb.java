@@ -25,6 +25,13 @@ public class PostServices {
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
 	}
 
-  
+  public List<Post>findByTitle(String text)
+  {
+    // in here, he call the method declaired in the interface
+    // just this and the method works
+    // for last, creates a endpoint for this method
+    return repo.findByTitleContaining(text);
+
+  }
 
 }
