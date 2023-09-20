@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.workshop.workshopmongo.domain.Post;
 import com.workshop.workshopmongo.domain.User;
+import com.workshop.workshopmongo.dto.AuthorDTO;
 import com.workshop.workshopmongo.repository.PostRepository;
 import com.workshop.workshopmongo.repository.UserRepository;
 
@@ -40,10 +41,14 @@ public class Instantiation implements CommandLineRunner {
         User alex = new User(null, "Alex Green", "alex@gmail.com");
         User bob = new User(null, "Bob Grey", "bob@gmail.com");
 
-        Post post1 = new Post(null, sdf.parse("21/03/2018"), "Partiu Viage", "Vou viajar para São Paulo", maria);
-         Post post2 = new Post(null, sdf.parse("21/12/2012"), "Ainda vou", "Vou viajar para Portugal", maria);
-       
+        // First we save the user for get the ids in the database
+        // after that we add to the database the posts, so, this way, the users have Id, and the post will be have associate User Id
         userRepository.saveAll(Arrays.asList(maria, alex, bob));
+
+        Post post1 = new Post(null, sdf.parse("21/03/2018"), "Partiu Viage", "Vou viajar para São Paulo", new AuthorDTO(maria));
+         Post post2 = new Post(null, sdf.parse("21/12/2012"), "Ainda vou", "Vou viajar para Portugal", new AuthorDTO(maria));
+       
+    
 
         postRepository.saveAll(Arrays.asList(post1, post2));
         // TODO Auto-generated method stub
