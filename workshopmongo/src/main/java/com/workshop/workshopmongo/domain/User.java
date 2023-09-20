@@ -2,10 +2,17 @@ package com.workshop.workshopmongo.domain;
 
 import java.io.Serializable;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+// We need especify that classe matchs to a Mongo Repository we need put the annotation 
+//@Document
+@Document(collection="user") // this "user" is the name of collection in mongodb
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Id
     private String id;
     private String name;
     private String email;
