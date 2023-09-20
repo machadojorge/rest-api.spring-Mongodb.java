@@ -1,6 +1,7 @@
 package com.workshop.workshopmongo.config;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.TimeZone;
 
@@ -51,6 +52,10 @@ public class Instantiation implements CommandLineRunner {
     
 
         postRepository.saveAll(Arrays.asList(post1, post2));
+        // now we add the post to the list Post from the user class for we have associated data
+        maria.getPost().addAll(Arrays.asList(post1, post2));
+        userRepository.save(maria);
+        
         // TODO Auto-generated method stub
         //throw new UnsupportedOperationException("Unimplemented method 'run'");
     }

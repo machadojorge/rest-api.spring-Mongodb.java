@@ -1,8 +1,11 @@
 package com.workshop.workshopmongo.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 // We need especify that classe matchs to a Mongo Repository we need put the annotation 
@@ -16,6 +19,10 @@ public class User implements Serializable {
     private String id;
     private String name;
     private String email;
+
+    // This annotation means that attribute references other object in other collection
+    @DBRef(lazy=true) // this way the user not load all data, just the necessáry posts associated to a user
+    private List<Post> post = new ArrayList<>();
 
     public User() {
     }
@@ -51,6 +58,17 @@ public class User implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    
+    public List<Post> getPost() {
+        return post;
+    }
+
+
+    public void setPost(List<Post> post) {
+        this.post = post;
+    }
+
 
     @Override
     public int hashCode() {
